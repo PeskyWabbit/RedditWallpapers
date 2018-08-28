@@ -1,2 +1,3 @@
 @echo off
-python myfirstprog.py
+python C:\path\to\RedditWallpapers.py
+
