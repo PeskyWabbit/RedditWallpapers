@@ -7,14 +7,14 @@ import configparser
 
 USERAGENT = "fake_user_agent v1.0"
 extension = ""
-FILEPATH = os.getcwd() + '\\images\\wallpaper'
+FILEPATH = os.path.join(os.getcwd(), r'\images\wallpaper')
 
 
 def get_pictures_from_subreddit(data, subreddit):
     global extension
     fileNotSaved = True
     isImage = True
-    for i in range(len(data)):
+    for i, x in enumerate(data):
         current_post = data[i]['data']
         image_url = current_post['url']
         if '.png' in image_url:
@@ -37,14 +37,14 @@ def get_pictures_from_subreddit(data, subreddit):
                 try:
                     output_filehandle = open(FILEPATH + extension, mode='bx')
                     output_filehandle.write(image.content)
-                except:
-                    print("Failed to download image...")
+                except Exception as e:
+                    print(str(e))
             if (os.path.exists(FILEPATH + extension)):
                 print(FILEPATH + extension + " exists!")
                 fileNotSaved = False
 
 
-def getImage():
+def get_image():
     config = configparser.ConfigParser()
     config.read('args.ini')
     top = config['Default']['top']
@@ -52,8 +52,7 @@ def getImage():
     number = config['Default']['number']
 
     print('Connecting to r/' + subreddit)
-    url = 'https://www.reddit.com/r/' + subreddit + '/top/.json?sort=top&t=' + \
-          top + '&limit=' + str(number)
+    url = 'https://www.reddit.com/r/{}/top/.json?sort=top&t={}&limit={}'.format(subreddit, top, number)
     response = requests.get(url, headers={'User-agent': USERAGENT})
 
     if not response.ok:
@@ -67,16 +66,16 @@ def getImage():
     get_pictures_from_subreddit(data, subreddit)
 
 
-def setWallpaper2():
-    if('.' in (extension)):
+def set_wallpaper():
+    if '.' in (extension):
         print(FILEPATH + extension)
         ctypes.windll.user32.SystemParametersInfoW(20, 0, FILEPATH + extension, 3)
     else:
         print("No image posts were found...\n")
 
 def main():
-    getImage()
-    setWallpaper2()
+    get_image()
+    set_wallpaper()
 
 if __name__.endswith('__main__'):
     main()
