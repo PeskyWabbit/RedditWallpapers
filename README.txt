@@ -1,4 +1,5 @@
-Author: PeskyWabbit
+Base Code author: NobodyMe
+Edited Code Author: PeskyWabbit
 
 Date: 08/27/2018
 
@@ -11,9 +12,10 @@ This is a simple python script that downloads the first picture from the top of 
 
 
 
-The default settings in the args.ini file are set to download the top post of the week from www.reddit.com/r/earthporn but can be changed to your liking. Further, the "number" argument is how many of the top posts this script will try to download before quitting. This is useful on a sub that is heavy with text posts but still allows links.
+The default settings in the args.ini file are set to download the top post of the week from www.reddit.com/r/SpacePorn but can be changed to your liking. Further, the "number" argument is how many of the top posts this script will try to download before quitting. This is useful on a sub that is heavy with text posts but still allows links.
 
-I will be adding a .cmd or .bat file to the repo that can be added to your startup folder so that the image updates on each boot.
+
+If you do not have Python and still wish to use this, worry not! if you download the build folder, you can run the RedditWallpapers.exe file without a hitch. The args.ini must remain in the same directory as the .exe but otherwise it works exactly the same. Make a shortcut to the .exe and paste it in your startup folder if you want it to update on each boot :)
 
 
 
