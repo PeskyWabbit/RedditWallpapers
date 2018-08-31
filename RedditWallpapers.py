@@ -9,7 +9,8 @@ USERAGENT = "fake_user_agent v1.0"
 extension = ""
 FILEPATH = os.getcwd() + '\\images\\wallpaper'
 
-
+#Github Author: NobodyMe 
+#Modified by: PeskyWabbit
 def get_pictures_from_subreddit(data, subreddit):
     global extension
     fileNotSaved = True
@@ -43,7 +44,8 @@ def get_pictures_from_subreddit(data, subreddit):
                 print(FILEPATH + extension + " exists!")
                 fileNotSaved = False
 
-
+#Github Author: NobodyMe 
+#Modified by: PeskyWabbit
 def getImage():
     config = configparser.ConfigParser()
     config.read('args.ini')
