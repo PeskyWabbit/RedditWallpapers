@@ -6,15 +6,11 @@ from idna import idnadata
 import configparser
 
 USERAGENT = "fake_user_agent v1.0"
-extension = ""
 FILEPATH = os.path.join(os.getcwd(), r'\images\wallpaper')
 
-#Github Author: NobodyMe 
-#Modified by: PeskyWabbit
+
 def get_pictures_from_subreddit(data, subreddit):
     global extension
-    fileNotSaved = True
-    isImage = True
     for i, x in enumerate(data):
         current_post = data[i]['data']
         image_url = current_post['url']
@@ -26,27 +22,23 @@ def get_pictures_from_subreddit(data, subreddit):
             image_url += '.jpeg'
             extension = '.jpeg'
         else:
-             isImage = False
+             continue
 
-        if (fileNotSaved and isImage):
-            if os.path.exists(FILEPATH + extension):
-                os.remove(FILEPATH + extension)
-            print('Attempting to download picture from r/' + subreddit + '.. ')
-            # redirects = False prevents thumbnails denoting removed images from getting in
-            image = requests.get(image_url, allow_redirects=False)
-            if (image.status_code == 200):
-                try:
-                    output_filehandle = open(FILEPATH + extension, mode='bx')
-                    output_filehandle.write(image.content)
-                except Exception as e:
-                    print(str(e))
-            if (os.path.exists(FILEPATH + extension)):
-                print(FILEPATH + extension + " exists!")
-                fileNotSaved = False
+        print('Attempting to download picture from r/' + subreddit + '.. ')
+        # redirects = False prevents thumbnails denoting removed images from getting in
+        image = requests.get(image_url, allow_redirects=False)
+        if (image.status_code == 200):
+            try:
+                output_filehandle = open(FILEPATH + extension, 'wb')
+                output_filehandle.write(image.content)
+            except Exception as e:
+                print(str(e))
+            else:
+                #no exception, break
+                break
+    return extension
 
 def get_image():
-#Github Author: NobodyMe 
-#Modified by: PeskyWabbit
     config = configparser.ConfigParser()
     config.read('args.ini')
     top = config['Default']['top']
@@ -65,10 +57,10 @@ def get_image():
         os.mkdir(os.getcwd() + '\\images')
 
     data = response.json()['data']['children']
-    get_pictures_from_subreddit(data, subreddit)
+    return get_pictures_from_subreddit(data, subreddit)
 
 
-def set_wallpaper():
+def set_wallpaper(extension):
     if '.' in (extension):
         print(FILEPATH + extension)
         ctypes.windll.user32.SystemParametersInfoW(20, 0, FILEPATH + extension, 3)
@@ -76,8 +68,7 @@ def set_wallpaper():
         print("No image posts were found...\n")
 
 def main():
-    get_image()
-    set_wallpaper()
+    set_wallpaper(get_image())
 
 if __name__.endswith('__main__'):
     main()
